@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Whisper WebGPU</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- WebGPU Not Supported Error -->
+    <div id="webgpu-error" class="error-container" style="display: none;">
+      WebGPU is not supported<br />by this browser :(
+    </div>
+
+    <!-- Main App Container -->
+    <div id="main-container" class="app-container">
+      <div class="content-container scrollbar-thin">
+        <!-- Header -->
+        <div class="header-container">
+          <img src="logo.png" class="logo" alt="Whisper Logo" />
+          <h1 class="title">Whisper WebGPU</h1>
+          <h2 class="subtitle">Real-time in-browser speech recognition</h2>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Initial State (Load Model) -->
+          <div id="initial-state">
+            <p class="description">
+              <br />
+              You are about to load <a href="https://huggingface.co/onnx-community/whisper-base" target="_blank"
+                rel="noreferrer" class="font-medium underline">whisper-base</a>,
+              a 73 million parameter speech recognition model that is optimized for inference on the web. Once
+              downloaded, the model (~200&nbsp;MB) will be cached and reused when you revisit the page.<br />
+              <br />
+              Everything runs directly in your browser using <a href="https://huggingface.co/docs/transformers.js"
+                target="_blank" rel="noreferrer" class="underline">🤗&nbsp;Transformers.js</a> and ONNX Runtime Web,
+              meaning no data is sent to a server. You can even disconnect from the internet after the model has loaded!
+            </p>
+            <button id="load-button" class="load-button">Load model</button>
+          </div>
+
+          <!-- Visualizer Container -->
+          <div class="visualizer-container">
+            <canvas id="audio-canvas" class="audio-canvas" width="720" height="240"></canvas>
+
+            <!-- Text Display (Transcription) -->
+            <div id="text-container" class="text-container" style="display: none;">
+              <label class="text-label">Transcription:</label>
+              <p id="text-display" class="text-display"></p>
+              <span id="tps-display" class="tps-display"></span>
+            </div>
+
+            <!-- Translation Container (Google API) -->
+            <div id="translation-container" class="translation-container" style="display: none;">
+              <div class="translation-header">
+                <label class="text-label">Translation (Google API):</label>
+                <select id="translation-language-select" class="translation-language-select"></select>
+              </div>
+              <div class="translation-text-container">
+                <p id="translation-display" class="text-display"></p>
+                <span id="translation-time-display" class="translation-time-display"></span>
+              </div>
+            </div>
+
+            <!-- Local Translation Container (Transformers.js) -->
+            <div id="local-translation-container" class="translation-container" style="display: none;">
+              <div class="translation-header">
+                <label class="text-label">Local Translation (NLLB):</label>
+                <select id="local-translation-language-select" class="translation-language-select"></select>
+              </div>
+              <div class="translation-text-container">
+                <p id="local-translation-display" class="text-display"></p>
+                <span id="local-translation-time-display" class="translation-time-display"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls (Language Selector, Load Translator & Reset) -->
+          <div id="controls-container" class="controls-container" style="display: none;">
+            <select id="language-select" class="language-select"></select>
+            <button id="load-translator-button" class="load-translator-button">Load Local Translator</button>
+            <button id="reset-button" class="reset-button">Reset</button>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loading-container" class="loading-container" style="display: none;">
+            <p id="loading-text" class="loading-text"></p>
+            <div id="progress-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
