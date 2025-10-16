@@ -369,11 +369,12 @@ export class App {
             const response = await fetch( url );
             const data = await response.json();
 
-            const endTime = performance.now();
-            this.translationTime = endTime - startTime;
+
 
             if ( data && data[0] ) {
                 this.translatedText = data[0].map( ( item: [string, unknown, unknown, unknown] ) => item[0] ).join( '' );
+                const endTime = performance.now();
+                this.translationTime = endTime - startTime;
             } else {
                 this.translatedText = 'Translation failed';
             }
